@@ -74,7 +74,6 @@ string infx2pstfx(string inf) {
         st1.pop();
     }
     post.erase(post.size() - 1);
-    cout << post;
     return post;
 }
 
@@ -100,6 +99,5 @@ int eval(string post) {
             st2.push(stoi(temp));
         }
     }
-    cout << st2.get();
     return st2.get();
 }
