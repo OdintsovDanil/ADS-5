@@ -29,9 +29,9 @@ int calc(int x, int y, char ch) {
     }
 }
 
-string infx2pstfx(string inf) {
+std::string infx2pstfx(std::string inf) {
     TStack<char, 100> st1;
-    string post = "";
+    std::string post = "";
     for (int iter = 0; iter < inf.size(); iter++) {
         if (prior(inf[iter]) == -2) {
             if (iter < inf.size() && prior(inf[iter + 1]) == -2) {
@@ -77,7 +77,7 @@ string infx2pstfx(string inf) {
     return post;
 }
 
-int eval(string post) {
+int eval(std::string post) {
     TStack<int, 100> st2;
     int iter = 0;
     for (int i = 0; i < post.size(); i++) {
