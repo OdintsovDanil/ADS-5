@@ -27,20 +27,18 @@ int calc(int x, int y, char ch) {
     case '/':
         return y / x;
     default:
-        throw "Error while perform actions!";
+        ;
     }
 }
 
 string infx2pstfx(string inf) {
     TStack<char, 100> st1;
     string post = "";
-    int iter = 0;
-    while (inf.size() - 1 <= iter) {
+    for (int iter = 0; iter < inf.size(); iter++) {
         if (prior(inf[iter]) == -2) {
             if (iter < inf.size() && prior(inf[iter + 1]) == -2) {
                 while (iter < inf.size() && prior(inf[iter]) == -2) {
-                    post += inf[iter];
-                    iter++;
+                    post += inf[iter++];
                 }
                 post += ' ';
             }
@@ -69,7 +67,6 @@ string infx2pstfx(string inf) {
             }
             st1.pop();
         }
-        iter++;
     }
     while (!st1.isEmpty()) {
         if (prior(st1.get()) > 1) {
@@ -78,7 +75,7 @@ string infx2pstfx(string inf) {
         }
         st1.pop();
     }
-    post.erase(post.size() - 1, 1);
+    post.erase(post.size() - 1);
     return post;
 }
 
