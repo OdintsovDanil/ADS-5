@@ -34,10 +34,17 @@ string infx2pstfx(string inf) {
     string post = "";
     for (int iter = 0; iter < inf.size(); iter++) {
         if (prior(inf[iter]) == -2) {
-            while (iter < inf.size() && prior(inf[iter]) == -2) {
+            if (iter < inf.size() && prior(inf[iter + 1]) == -2) {
+                while (iter < inf.size() && prior(inf[iter]) == -2) {
                     post += inf[iter++];
+                }
+                post += ' ';
             }
-            post += ' ';
+            else {
+                post += inf[iter];
+                post += ' ';
+            }
+            continue;
         }
         if (prior(inf[iter]) == 0 || prior(inf[iter]) > prior(st1.get()) || st1.isEmpty()) {
             st1.push(inf[iter]);
@@ -67,6 +74,7 @@ string infx2pstfx(string inf) {
         st1.pop();
     }
     post.erase(post.size() - 1);
+    cout << post;
     return post;
 }
 
@@ -92,5 +100,6 @@ int eval(string post) {
             st2.push(stoi(temp));
         }
     }
+    cout << st2.get();
     return st2.get();
 }
