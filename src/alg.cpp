@@ -26,8 +26,6 @@ int calc(int x, int y, char ch) {
         return y * x;
     case '/':
         return y / x;
-    default:
-        ;
     }
 }
 
@@ -36,19 +34,12 @@ string infx2pstfx(string inf) {
     string post = "";
     for (int iter = 0; iter < inf.size(); iter++) {
         if (prior(inf[iter]) == -2) {
-            if (iter < inf.size() && prior(inf[iter + 1]) == -2) {
-                while (iter < inf.size() && prior(inf[iter]) == -2) {
+            while (iter < inf.size() && prior(inf[iter]) == -2) {
                     post += inf[iter++];
-                }
-                post += ' ';
             }
-            else {
-                post += inf[iter];
-                post += ' ';
-            }
-            continue;
+            post += ' ';
         }
-        if (inf[iter] == '(' || prior(inf[iter]) > prior(st1.get()) || st1.isEmpty()) {
+        if (prior(inf[iter]) == 0 || prior(inf[iter]) > prior(st1.get()) || st1.isEmpty()) {
             st1.push(inf[iter]);
         }
         else if (prior(inf[iter]) <= prior(st1.get())) {
@@ -59,8 +50,8 @@ string infx2pstfx(string inf) {
             }
             st1.push(inf[iter]);
         }
-        if (inf[iter] == ')') {
-            while ((st1.get() != '(')) {
+        if (prior(inf[iter]) == 1) {
+            while ((prior(inf[iter]) == 0)) {
                 post += st1.get();
                 post += ' ';
                 st1.pop();
