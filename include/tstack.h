@@ -12,6 +12,9 @@ public:
     bool isEmpty() const {
         return top == -1;
     }
+    bool isFull() const {
+        return top == size - 1;
+    }
     void push(T value) {
         if (!isFull())
             arr[++top] = value;
