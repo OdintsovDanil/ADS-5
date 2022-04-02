@@ -55,7 +55,8 @@ std::string infx2pstfx(std::string inf) {
             }
             continue;
         }
-        if (prior(inf[iter]) == 0 || prior(inf[iter]) > prior(st1.get()) || st1.isEmpty()) {
+        int pri = prior(inf[iter]);
+        if (pri == 0 || pri > prior(st1.get()) || st1.isEmpty()) {
             st1.push(inf[iter]);
         } else {
             if (prior(inf[iter]) <= prior(st1.get())) {
