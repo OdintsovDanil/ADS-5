@@ -88,23 +88,23 @@ std::string infx2pstfx(std::string inf) {
     return post;
 }
 
-int eval(std::string post) {
+int eval(std::string pref) {
     TStack<int, 100> st2;
     int iter = 0;
-    for (int i = 0; i < post.size(); i++) {
+    for (int i = 0; i < pref.size(); i++) {
         iter = i;
         std::string temp = "";
-        while (prior(post[iter]) == -1) {
-            temp += post[iter];
+        while (prior(pref[iter]) == -1) {
+            temp += pref[iter];
             iter++;
         }
         i = iter;
-        if (prior(post[iter]) > 1) {
+        if (prior(pref[iter]) > 1) {
             int x = st2.get();
             st2.pop();
             int y = st2.get();
             st2.pop();
-            st2.push(calc(x, y, post[i]));
+            st2.push(calc(x, y, pref[i]));
         }
         if (temp != "") {
             st2.push(std::stoi(temp));
