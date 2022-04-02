@@ -47,33 +47,36 @@ std::string infx2pstfx(std::string inf) {
         if (prior(inf[iter]) == -1) {
             if (iter < inf.size() && prior(inf[iter + 1]) == -1) {
                 while (iter < inf.size() && prior(inf[iter]) == -1) {
-                    post += inf[iter++];
+                    post += inf[iter];
+                    iter++;
                 }
                 post += ' ';
-            } else {
+            }
+            else {
                 post += inf[iter];
                 post += ' ';
             }
             continue;
         }
-        int pri = prior(inf[iter]);
-        if (pri == 0 || pri > prior(st1.get()) || st1.isEmpty()) {
+        if (prior(inf[iter]) == 0 || prior(inf[iter]) > prior(st1.get()) || st1.isEmpty()) {
             st1.push(inf[iter]);
-        } else {
-            if (prior(inf[iter]) <= prior(st1.get())) {
-                while (prior(st1.get()) > 1) {
-                    post += st1.get();
-                    post += ' ';
-                    st1.pop();
-                }
-                st1.push(inf[iter]);
-            } else if (prior(inf[iter]) == 1) {
+        }
+        else {
+            if (prior(inf[iter]) == 1) {
                 while (prior(st1.get()) != 0) {
                     post += st1.get();
                     post += ' ';
                     st1.pop();
                 }
                 st1.pop();
+            }
+            else if (prior(inf[iter]) <= prior(st1.get())) {
+                while (prior(st1.get()) > 1) {
+                    post += st1.get();
+                    post += ' ';
+                    st1.pop();
+                }
+                st1.push(inf[iter]);
             }
         }
     }
