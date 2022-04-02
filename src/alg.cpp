@@ -33,7 +33,8 @@ int calc(int x, int y, char ch) {
     case '*':
         return y * x;
     case '/':
-        return y / x;
+        if (x != 0)
+            return y / x;
     default:
         return 0;
     }
