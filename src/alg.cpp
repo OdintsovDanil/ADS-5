@@ -5,14 +5,22 @@
 
 int prior(char op) {
     switch (op) {
-    case '(': return 0;
-    case ')': return 1;
-    case '-': return 2;
-    case '+': return 2;
-    case '*': return 3;
-    case '/': return 3;
-    case ' ': return -1;
-    default: return -2;
+    case '(':
+        return 0;
+    case ')':
+        return 1;
+    case '+':
+        return 2;
+    case '-':
+        return 2;
+    case '*':
+        return 3;
+    case '/':
+        return 3;
+    case ' ':
+        return -2;
+    default:
+        return -1;
     }
 }
 
@@ -33,9 +41,9 @@ std::string infx2pstfx(std::string inf) {
     TStack<char, 100> st1;
     std::string post = "";
     for (int iter = 0; iter < inf.size(); iter++) {
-        if (prior(inf[iter]) == -2) {
-            if (iter < inf.size() && prior(inf[iter + 1]) == -2) {
-                while (iter < inf.size() && prior(inf[iter]) == -2) {
+        if (prior(inf[iter]) == -1) {
+            if (iter < inf.size() && prior(inf[iter + 1]) == -1) {
+                while (iter < inf.size() && prior(inf[iter]) == -1) {
                     post += inf[iter++];
                 }
                 post += ' ';
@@ -49,21 +57,23 @@ std::string infx2pstfx(std::string inf) {
         if (prior(inf[iter]) == 0 || prior(inf[iter]) > prior(st1.get()) || st1.isEmpty()) {
             st1.push(inf[iter]);
         }
-        else if (prior(inf[iter]) <= prior(st1.get())) {
-            while (prior(st1.get()) > 1) {
-                post += st1.get();
-                post += ' ';
+        else {
+            if (prior(inf[iter]) <= prior(st1.get())) {
+                while (prior(st1.get()) > 1) {
+                    post += st1.get();
+                    post += ' ';
+                    st1.pop();
+                }
+                st1.push(inf[iter]);
+            }
+            else if (prior(inf[iter]) == 1) {
+                while (prior(st1.get()) != 0) {
+                    post += st1.get();
+                    post += ' ';
+                    st1.pop();
+                }
                 st1.pop();
             }
-            st1.push(inf[iter]);
-        }
-        if (prior(inf[iter]) == 1) {
-            while ((prior(inf[iter]) == 0)) {
-                post += st1.get();
-                post += ' ';
-                st1.pop();
-            }
-            st1.pop();
         }
     }
     while (!st1.isEmpty()) {
@@ -82,13 +92,13 @@ int eval(std::string post) {
     int iter = 0;
     for (int i = 0; i < post.size(); i++) {
         iter = i;
-        string temp = "";
-        while (prior(post[iter]) == -2) {
+        std::string temp = "";
+        while (prior(post[iter]) == -1) {
             temp += post[iter];
             iter++;
         }
         i = iter;
-        if (prior(post[i]) > 1) {
+        if (prior(post[iter]) > 1) {
             int x = st2.get();
             st2.pop();
             int y = st2.get();
@@ -96,7 +106,7 @@ int eval(std::string post) {
             st2.push(calc(x, y, post[i]));
         }
         if (temp != "") {
-            st2.push(stoi(temp));
+            st2.push(std::stoi(temp));
         }
     }
     return st2.get();
