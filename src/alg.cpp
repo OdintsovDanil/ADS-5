@@ -51,17 +51,16 @@ std::string infx2pstfx(std::string inf) {
                     iter++;
                 }
                 post += ' ';
-            }
-            else {
+            } else {
                 post += inf[iter];
                 post += ' ';
             }
             continue;
         }
-        if (prior(inf[iter]) == 0 || prior(inf[iter]) > prior(st1.get()) || st1.isEmpty()) {
+        int pri = prior(inf[iter]);
+        if (pri == 0 || pri > prior(st1.get()) || st1.isEmpty()) {
             st1.push(inf[iter]);
-        }
-        else {
+        } else {
             if (prior(inf[iter]) == 1) {
                 while (prior(st1.get()) != 0) {
                     post += st1.get();
@@ -69,8 +68,7 @@ std::string infx2pstfx(std::string inf) {
                     st1.pop();
                 }
                 st1.pop();
-            }
-            else if (prior(inf[iter]) <= prior(st1.get())) {
+            } else if (prior(inf[iter]) <= prior(st1.get())) {
                 while (prior(st1.get()) > 1) {
                     post += st1.get();
                     post += ' ';
