@@ -34,6 +34,8 @@ int calc(int x, int y, char ch) {
         return y * x;
     case '/':
         return y / x;
+    default:
+        return 0;
     }
 }
 
